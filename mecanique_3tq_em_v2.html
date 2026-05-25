@@ -1,0 +1,539 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --c1:#f97316;--c2:#8b5cf6;--c3:#06b6d4;--c4:#10b981;--c5:#f43f5e;
+  --c6:#eab308;--c7:#3b82f6;--c8:#ec4899;
+  --bg:#fafaf9;--card:#ffffff;--txt:#1c1917;--txt2:#78716c;--txt3:#a8a29e;
+  --brd:#e7e5e4;
+}
+body{font-family:var(--font-sans);background:var(--bg);color:var(--txt);font-size:16px}
+.app{padding:16px;max-width:700px;margin:0 auto}
+.hdr{text-align:center;padding:20px 0 18px;margin-bottom:20px;background:linear-gradient(135deg,#fef3c7 0%,#fce7f3 50%,#ede9fe 100%);border-radius:20px;border:2px solid #e7e5e4}
+.hdr h1{font-size:24px;font-weight:500;color:var(--txt)}
+.hdr p{font-size:15px;color:var(--txt2);margin-top:6px}
+.tabs{display:flex;gap:8px;margin-bottom:20px}
+.tab{flex:1;font-size:15px;font-weight:500;padding:12px 8px;border-radius:14px;border:2px solid var(--brd);background:var(--card);color:var(--txt2);cursor:pointer;transition:all .2s;text-align:center}
+.tab.on{background:#1c1917;color:#fff;border-color:#1c1917}
+.pg{display:none}
+.pg.on{display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:12px}
+.mcard{background:var(--card);border:2px solid var(--brd);border-radius:18px;padding:18px 12px;cursor:pointer;text-align:center;transition:all .2s}
+.mcard:hover{transform:translateY(-3px)}
+.mcard .em{font-size:32px;margin-bottom:8px}
+.mcard .mn{font-size:16px;font-weight:500;color:var(--txt)}
+.mcard .mt{font-size:13px;color:var(--txt2);margin-top:4px}
+.mc0{border-color:#fdba74;background:#fff7ed} .mc0:hover{background:#fed7aa}
+.mc1{border-color:#67e8f9;background:#ecfeff} .mc1:hover{background:#cffafe}
+.mc2{border-color:#c4b5fd;background:#f5f3ff} .mc2:hover{background:#ede9fe}
+.mc3{border-color:#fca5a5;background:#fff1f2} .mc3:hover{background:#ffe4e6}
+.mc4{border-color:#6ee7b7;background:#ecfdf5} .mc4:hover{background:#d1fae5}
+.mc5{border-color:#93c5fd;background:#eff6ff} .mc5:hover{background:#dbeafe}
+.mc6{border-color:#f9a8d4;background:#fdf2f8} .mc6:hover{background:#fce7f3}
+.mc7{border-color:#fde68a;background:#fefce8} .mc7:hover{background:#fef9c3}
+.exz{display:none}
+.exhdr{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.extitle{font-size:18px;font-weight:500;flex:1;color:var(--txt)}
+.bbk{font-size:14px;padding:9px 16px;border-radius:12px;border:2px solid var(--brd);background:var(--card);color:var(--txt2);cursor:pointer;font-family:var(--font-sans)}
+.bbk:hover{background:var(--bg)}
+.bfm{font-size:14px;padding:9px 16px;border-radius:12px;border:2px solid #c4b5fd;background:#f5f3ff;color:#7c3aed;cursor:pointer;font-family:var(--font-sans);font-weight:500}
+.bfm:hover{background:#ede9fe}
+.pgtxt{font-size:14px;color:var(--txt2);margin-bottom:6px}
+.prog{height:8px;background:#e7e5e4;border-radius:8px;margin-bottom:16px;overflow:hidden}
+.progf{height:100%;border-radius:8px;transition:width .35s;background:linear-gradient(90deg,#f97316,#8b5cf6)}
+.hint{background:#f5f3ff;border:2px solid #c4b5fd;border-radius:16px;padding:14px 16px;margin-bottom:14px;display:none}
+.ht{font-size:13px;font-weight:500;color:#7c3aed;margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em}
+.hf{font-family:var(--font-mono);font-size:13px;color:#6d28d9;background:#ede9fe;padding:3px 8px;border-radius:6px;display:inline-block;margin:2px 3px}
+.hl{font-size:14px;color:#4c1d95;margin:4px 0;line-height:1.6}
+.excard{background:var(--card);border:2px solid var(--brd);border-radius:18px;padding:18px;margin-bottom:10px}
+.exn{font-size:13px;color:var(--txt3);font-family:var(--font-mono);margin-bottom:8px}
+.ext{font-size:16px;line-height:1.7;color:var(--txt)}
+.ext strong{font-weight:500;color:#1c1917}
+.exask{margin-top:12px;padding-top:12px;border-top:2px solid #f5f5f4}
+.exask p{font-size:14px;color:var(--txt2);margin-bottom:6px}
+.exask ul{list-style:none;padding-left:10px}
+.exask li{font-size:14px;color:var(--txt2);padding:2px 0}
+.exask li::before{content:"→ ";color:var(--c1)}
+.arow{margin-top:14px;display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
+.agrp{display:flex;flex-direction:column;gap:5px;flex:1;min-width:130px}
+.agrp label{font-size:13px;color:var(--txt2);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.04em;font-weight:500}
+.agrp input{font-family:var(--font-mono);font-size:16px;padding:10px 14px;border-radius:12px;border:2px solid var(--brd);background:var(--bg);color:var(--txt);outline:none;width:100%;transition:border-color .15s}
+.agrp input:focus{border-color:#8b5cf6}
+.agrp input.ok{border-color:#10b981;background:#ecfdf5}
+.agrp input.ko{border-color:#f43f5e;background:#fff1f2}
+.bchk{font-size:15px;font-weight:500;padding:10px 20px;border-radius:12px;border:none;background:#1c1917;color:#fff;cursor:pointer;white-space:nowrap;font-family:var(--font-sans)}
+.bchk:hover{background:#292524}
+.bchk:disabled{opacity:.35;cursor:default}
+.rnote{font-size:13px;color:var(--txt3);margin-top:6px;font-family:var(--font-mono)}
+.fb{margin-top:12px;border-radius:16px;padding:14px 16px;display:none}
+.fb.ok{background:#ecfdf5;border:2px solid #6ee7b7}
+.fb.ko{background:#fff1f2;border:2px solid #fca5a5}
+.fbt{font-size:16px;font-weight:500;margin-bottom:6px}
+.fb.ok .fbt{color:#059669}
+.fb.ko .fbt{color:#e11d48}
+.fbb{font-size:15px;color:var(--txt2);line-height:1.7}
+.fbb b,.fbb strong{color:var(--txt);font-weight:500}
+.step{margin:6px 0;padding:8px 12px;background:var(--card);border-radius:10px;border-left:4px solid #8b5cf6;font-size:14px}
+.step b{color:#7c3aed;font-family:var(--font-mono)}
+.fml{font-family:var(--font-mono);font-size:13px;color:#2563eb;background:#dbeafe;padding:2px 7px;border-radius:6px;display:inline-block}
+.bnxt{display:none;font-size:15px;font-weight:500;padding:10px 20px;border-radius:12px;border:2px solid var(--brd);background:var(--card);color:var(--txt);cursor:pointer;margin-top:10px;font-family:var(--font-sans)}
+.bnxt:hover{background:var(--bg)}
+.res{text-align:center;padding:32px 16px;display:none}
+.resscore{font-size:64px;font-weight:500}
+.reslbl{font-size:16px;color:var(--txt2);margin:6px 0 14px}
+.resmsg{font-size:16px;color:var(--txt2);max-width:380px;margin:0 auto 20px;line-height:1.6}
+.bret{font-size:15px;font-weight:500;padding:12px 24px;border-radius:14px;border:none;background:#1c1917;color:#fff;cursor:pointer;font-family:var(--font-sans)}
+.chap{border:2px solid var(--brd);border-radius:18px;margin-bottom:10px;overflow:hidden;background:var(--card)}
+.chaph{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer}
+.chaph:hover{background:var(--bg)}
+.ci{font-size:20px}
+.ct{font-size:16px;font-weight:500;flex:1;color:var(--txt)}
+.ca{font-size:13px;color:var(--txt3);transition:transform .25s}
+.chap.open .ca{transform:rotate(180deg)}
+.chapb{display:none;padding:0 18px 16px;border-top:2px solid var(--brd)}
+.chap.open .chapb{display:block}
+.ci2{font-size:15px;color:var(--txt2);margin:12px 0 6px;line-height:1.6}
+.ft{width:100%;border-collapse:collapse;font-size:14px;margin-top:10px}
+.ft th{font-size:12px;color:var(--txt3);text-transform:uppercase;letter-spacing:.04em;padding:6px 8px;text-align:left;border-bottom:2px solid var(--brd);font-weight:500}
+.ft td{padding:8px 8px;border-bottom:1px solid #f5f5f4;color:var(--txt2);vertical-align:top;line-height:1.6}
+.ft tr:last-child td{border-bottom:none}
+.fs{font-family:var(--font-mono);font-size:13px;color:#2563eb;background:#dbeafe;padding:3px 7px;border-radius:6px;white-space:nowrap;display:inline-block}
+.fq{color:var(--txt);font-size:14px}
+.fu{color:var(--txt3);font-size:13px}
+.fc{color:#7c3aed;font-size:13px;font-weight:500}
+.conv{background:var(--bg);border-radius:12px;padding:10px 14px;margin-top:10px;font-size:14px;color:var(--txt2);line-height:1.7;border:1px solid var(--brd)}
+.conv b{color:var(--txt);font-weight:500}
+.pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.pill{font-family:var(--font-mono);font-size:13px;background:#f0fdf4;border:1px solid #6ee7b7;padding:3px 10px;border-radius:20px;color:#065f46}
+@media(max-width:480px){.grid{grid-template-columns:1fr 1fr}.arow{flex-direction:column}}
+</style>
+
+<div class="app">
+<div class="hdr">
+  <h1>🔧 Mécanique — 3Tq Em</h1>
+  <p>Collège Notre-Dame · 10 exercices par chapitre · Correction détaillée</p>
+</div>
+
+<div class="tabs">
+  <button class="tab on" onclick="showPg('ex',this)">📚 Exercices</button>
+  <button class="tab" onclick="showPg('fo',this)">📐 Formules</button>
+</div>
+
+<div id="pg-ex" class="pg on">
+  <div id="menu"><div class="grid">
+    <div class="mcard mc0" onclick="start('mru')"><div class="em">🏎️</div><div class="mn">MRU</div><div class="mt">Rectiligne uniforme</div></div>
+    <div class="mcard mc1" onclick="start('debit')"><div class="em">🌊</div><div class="mn">Débit</div><div class="mt">Tuyaux &amp; transporteurs</div></div>
+    <div class="mcard mc2" onclick="start('mrua')"><div class="em">🚀</div><div class="mn">MRUA</div><div class="mt">Mouvement accéléré</div></div>
+    <div class="mcard mc3" onclick="start('mrur')"><div class="em">🛑</div><div class="mn">MRUR</div><div class="mt">Mouvement retardé</div></div>
+    <div class="mcard mc4" onclick="start('chute')"><div class="em">🌍</div><div class="mn">Chute</div><div class="mt">g = 9,81 m/s²</div></div>
+    <div class="mcard mc5" onclick="start('mcu')"><div class="em">⚙️</div><div class="mn">MCU</div><div class="mt">Mouvement circulaire</div></div>
+    <div class="mcard mc6" onclick="start('poulies')"><div class="em">🔧</div><div class="mn">Poulies</div><div class="mt">Courroies &amp; rapports</div></div>
+    <div class="mcard mc7" onclick="start('engr')"><div class="em">⚙️</div><div class="mn">Engrenages</div><div class="mt">Dents, chaînes, vis</div></div>
+  </div></div>
+
+  <div class="exz" id="exz">
+    <div class="exhdr">
+      <button class="bbk" onclick="goMenu()">← Menu</button>
+      <div class="extitle" id="extitle"></div>
+      <button class="bfm" onclick="toggleHint()">💡 Formules</button>
+    </div>
+    <div class="hint" id="hint"></div>
+    <div class="pgtxt" id="pgtxt">Exercice 1 / 10</div>
+    <div class="prog"><div class="progf" id="progf" style="width:10%"></div></div>
+    <div id="exc"></div>
+    <div class="res" id="res"></div>
+  </div>
+</div>
+
+<div id="pg-fo" class="pg">
+
+<div class="chap open" id="c0">
+  <div class="chaph" onclick="tog('c0')"><span class="ci">🏎️</span><span class="ct">MRU — Mouvement Rectiligne Uniforme</span><span class="ca">▼</span></div>
+  <div class="chapb">
+    <p class="ci2">Vitesse <strong>constante</strong> en ligne droite. Formule de base : <span class="fs">e = v × t</span></p>
+    <table class="ft">
+      <tr><th>Formule</th><th>Cherche</th><th>Unités</th></tr>
+      <tr><td><span class="fs">e = v × t</span></td><td class="fq">Espace parcouru</td><td class="fu">m ou km</td></tr>
+      <tr><td><span class="fs">v = e / t</span></td><td class="fq">Vitesse</td><td class="fu">m/s ou km/h</td></tr>
+      <tr><td><span class="fs">t = e / v</span></td><td class="fq">Durée</td><td class="fu">s, min, h</td></tr>
+    </table>
+    <div class="conv"><b>Astuce triangle</b> — couvre la grandeur cherchée avec le doigt :<br>
+    Couvre <span class="fs">e</span> → v × t &nbsp;|&nbsp; Couvre <span class="fs">v</span> → e ÷ t &nbsp;|&nbsp; Couvre <span class="fs">t</span> → e ÷ v
+    <div class="pills" style="margin-top:8px"><span class="pill">km/h ÷ 3,6 = m/s</span><span class="pill">m/s × 3,6 = km/h</span><span class="pill">1 h = 3 600 s</span><span class="pill">1 km = 1 000 m</span></div></div>
+  </div>
+</div>
+
+<div class="chap" id="c1">
+  <div class="chaph" onclick="tog('c1')"><span class="ci">🌊</span><span class="ct">Débit Volumétrique</span><span class="ca">▼</span></div>
+  <div class="chapb">
+    <p class="ci2">Volume traversant une section par unité de temps. Base : <span class="fs">Q = S × v</span></p>
+    <table class="ft">
+      <tr><th>Formule</th><th>Cherche</th><th>Unités</th></tr>
+      <tr><td><span class="fs">Q = S × v</span></td><td class="fq">Débit</td><td class="fu">m³/s ou m³/h</td></tr>
+      <tr><td><span class="fs">S = Q / v</span></td><td class="fq">Section droite</td><td class="fu">m²</td></tr>
+      <tr><td><span class="fs">v = Q / S</span></td><td class="fq">Vitesse écoulement</td><td class="fu">m/s</td></tr>
+      <tr><td colspan="3"><span class="fc">Formes de section</span></td></tr>
+      <tr><td><span class="fs">S = π·d²/4</span></td><td class="fq">Section circulaire</td><td class="fu">d en m</td></tr>
+      <tr><td><span class="fs">d = √(4S/π)</span></td><td class="fq">Diamètre tuyau</td><td class="fu">m (×1000 = mm)</td></tr>
+      <tr><td><span class="fs">c = √S</span></td><td class="fq">Côté section carrée</td><td class="fu">m (×100 = cm)</td></tr>
+      <tr><td><span class="fs">S = l × h</span></td><td class="fq">Section rectangulaire</td><td class="fu">m²</td></tr>
+    </table>
+    <div class="conv"><b>Conversions</b><div class="pills"><span class="pill">1 m³/h = 1/3600 m³/s</span><span class="pill">1 dm² = 0,01 m²</span><span class="pill">1 cm² = 0,0001 m²</span></div></div>
+  </div>
+</div>
+
+<div class="chap" id="c2">
+  <div class="chaph" onclick="tog('c2')"><span class="ci">🚀</span><span class="ct">MRUA — Mouvement Uniformément Accéléré</span><span class="ca">▼</span></div>
+  <div class="chapb">
+    <p class="ci2">Accélération <strong>constante et positive</strong>. La vitesse augmente régulièrement.</p>
+    <table class="ft">
+      <tr><th>Formule</th><th>Usage</th></tr>
+      <tr><td><span class="fs">a = (vf − v₀) / t</span></td><td class="fq">Accélération (m/s²)</td></tr>
+      <tr><td><span class="fs">vf = v₀ + a·t</span></td><td class="fq">Vitesse finale</td></tr>
+      <tr><td><span class="fs">e = v₀·t + ½·a·t²</span></td><td class="fq">Espace général</td></tr>
+      <tr><td><span class="fs">e = ½·a·t²</span></td><td class="fq">Si départ du repos (v₀ = 0)</td></tr>
+      <tr><td><span class="fs">a = 2·e / t²</span></td><td class="fq">Si départ du repos</td></tr>
+      <tr><td><span class="fs">vf² = v₀² + 2·a·e</span></td><td class="fq">Sans connaître t</td></tr>
+      <tr><td><span class="fs">vm = (v₀ + vf) / 2</span></td><td class="fq">Vitesse moyenne</td></tr>
+    </table>
+    <div class="conv">Si v₀ = 0 (départ du repos) les formules se simplifient. Toujours convertir km/h en m/s (÷ 3,6) avant de calculer.</div>
+  </div>
+</div>
+
+<div class="chap" id="c3">
+  <div class="chaph" onclick="tog('c3')"><span class="ci">🛑</span><span class="ct">MRUR — Mouvement Uniformément Retardé</span><span class="ca">▼</span></div>
+  <div class="chapb">
+    <p class="ci2">Accélération <strong>négative</strong> (décélération). On note <em>a</em> la valeur positive.</p>
+    <table class="ft">
+      <tr><th>Formule</th><th>Usage</th></tr>
+      <tr><td><span class="fs">a = (v₀ − vf) / t</span></td><td class="fq">Décélération (valeur positive)</td></tr>
+      <tr><td><span class="fs">vf = v₀ − a·t</span></td><td class="fq">Vitesse après freinage</td></tr>
+      <tr><td><span class="fs">e = v₀·t − ½·a·t²</span></td><td class="fq">Espace de freinage</td></tr>
+      <tr><td><span class="fs">a = v₀² / (2·e)</span></td><td class="fq">Arrêt complet (vf = 0)</td></tr>
+      <tr><td><span class="fs">t = v₀ / a</span></td><td class="fq">Durée jusqu'à l'arrêt</td></tr>
+      <tr><td><span class="fs">vf² = v₀² − 2·a·e</span></td><td class="fq">Sans connaître t</td></tr>
+    </table>
+    <div class="conv">Si vf calculé est négatif → le mobile s'est arrêté avant. On pose vf = 0.</div>
+  </div>
+</div>
+
+<div class="chap" id="c4">
+  <div class="chaph" onclick="tog('c4')"><span class="ci">🌍</span><span class="ct">Chute des Corps</span><span class="ca">▼</span></div>
+  <div class="chapb">
+    <p class="ci2">MRUA avec <strong>a = g = 9,81 m/s²</strong>. Chute libre = sans résistance de l'air.</p>
+    <table class="ft">
+      <tr><th>Situation</th><th>Formules</th></tr>
+      <tr><td class="fq">Chute libre (v₀=0) ↓</td><td><span class="fs">v=g·t</span> &nbsp;<span class="fs">h=½·g·t²</span> &nbsp;<span class="fs">t=√(2h/g)</span></td></tr>
+      <tr><td class="fq">Lancé vers le haut ↑</td><td><span class="fs">v=v₀−g·t</span> &nbsp;<span class="fs">h=v₀·t−½·g·t²</span></td></tr>
+      <tr><td class="fq">Hauteur max (apogée)</td><td><span class="fs">h_max = v₀²/(2g)</span></td></tr>
+      <tr><td class="fq">Durée de montée</td><td><span class="fs">t = v₀/g</span></td></tr>
+      <tr><td class="fq">Lancé vers le bas ↓</td><td><span class="fs">v=v₀+g·t</span> &nbsp;<span class="fs">h=v₀·t+½·g·t²</span></td></tr>
+    </table>
+    <div class="conv"><div class="pills"><span class="pill">g = 9,81 m/s²</span><span class="pill">t montée = t descente</span><span class="pill">v_impact = v₀ si lancé en haut</span></div></div>
+  </div>
+</div>
+
+<div class="chap" id="c5">
+  <div class="chaph" onclick="tog('c5')"><span class="ci">⚙️</span><span class="ct">MCU — Mouvement Circulaire Uniforme</span><span class="ca">▼</span></div>
+  <div class="chapb">
+    <p class="ci2">Rotation à vitesse angulaire constante. Un point sur le bord parcourt π·D par tour.</p>
+    <table class="ft">
+      <tr><th>Formule</th><th>Cherche</th><th>Conditions</th></tr>
+      <tr><td><span class="fs">v = π·D·N / 60</span></td><td class="fq">Vitesse circonférentielle</td><td class="fu">D en m, N en tr/min → v en m/s</td></tr>
+      <tr><td><span class="fs">N = 60·v / (π·D)</span></td><td class="fq">Vitesse de rotation</td><td class="fu">tr/min</td></tr>
+      <tr><td><span class="fs">D = 60·v / (π·N)</span></td><td class="fq">Diamètre</td><td class="fu">m (×1000 = mm)</td></tr>
+      <tr><td><span class="fs">ω = 2·π·N / 60</span></td><td class="fq">Vitesse angulaire</td><td class="fu">rad/s</td></tr>
+      <tr><td><span class="fs">v = ω · R</span></td><td class="fq">Depuis ω</td><td class="fu">R = D/2</td></tr>
+    </table>
+    <div class="conv"><b>Conversions diamètre</b><div class="pills"><span class="pill">D(mm) ÷ 1000 = D(m)</span><span class="pill">D(cm) ÷ 100 = D(m)</span><span class="pill">v(m/min) = v(m/s) × 60</span></div></div>
+  </div>
+</div>
+
+<div class="chap" id="c6">
+  <div class="chaph" onclick="tog('c6')"><span class="ci">🔧</span><span class="ct">Poulies &amp; Courroies</span><span class="ca">▼</span></div>
+  <div class="chapb">
+    <p class="ci2">La courroie impose la <strong>même vitesse linéaire</strong> aux deux poulies. 1 = menante, 2 = menée.</p>
+    <table class="ft">
+      <tr><th>Formule</th><th>Rôle</th></tr>
+      <tr><td><span class="fs">N₁·D₁ = N₂·D₂</span></td><td class="fq">Loi fondamentale</td></tr>
+      <tr><td><span class="fs">N₂ = N₁·D₁ / D₂</span></td><td class="fq">Vitesse poulie menée</td></tr>
+      <tr><td><span class="fs">D₂ = N₁·D₁ / N₂</span></td><td class="fq">Diamètre poulie menée</td></tr>
+      <tr><td><span class="fs">i = D₂/D₁ = N₁/N₂</span></td><td class="fq">Rapport de transmission</td></tr>
+      <tr><td><span class="fs">i &gt; 1 → réducteur</span></td><td class="fq">N₂ plus lente que N₁</td></tr>
+      <tr><td><span class="fs">i &lt; 1 → multiplicateur</span></td><td class="fq">N₂ plus rapide que N₁</td></tr>
+      <tr><td><span class="fs">ω = 2πN / 60</span></td><td class="fq">Vitesse angulaire (rad/s)</td></tr>
+    </table>
+    <div class="conv">Équipage multi-étages : appliquer N_sortie = N_entrée × D_men / D_menée à chaque étage en cascade.</div>
+  </div>
+</div>
+
+<div class="chap" id="c7">
+  <div class="chaph" onclick="tog('c7')"><span class="ci">⚙️</span><span class="ct">Engrenages, Chaînes &amp; Vis sans Fin</span><span class="ca">▼</span></div>
+  <div class="chapb">
+    <p class="ci2">Les dents s'engrènent → même vitesse tangentielle. Z = nombre de dents.</p>
+    <table class="ft">
+      <tr><th>Type</th><th>Formule</th><th>Note</th></tr>
+      <tr><td class="fc">Roues dentées</td><td><span class="fs">N₁·Z₁ = N₂·Z₂</span></td><td class="fu">Loi de base</td></tr>
+      <tr><td></td><td><span class="fs">N₂ = N₁·Z₁/Z₂</span></td><td class="fu">Vitesse menée</td></tr>
+      <tr><td></td><td><span class="fs">i = Z₂/Z₁ = N₁/N₂</span></td><td class="fu">Rapport</td></tr>
+      <tr><td class="fc">Chaîne</td><td><span class="fs">N₁·Z₁ = N₂·Z₂</span></td><td class="fu">Même loi</td></tr>
+      <tr><td class="fc">Vis sans fin</td><td><span class="fs">N_roue = e·N_vis/Z_roue</span></td><td class="fu">e = nb d'entrées</td></tr>
+      <tr><td></td><td><span class="fs">i = Z_roue/e</span></td><td class="fu">Toujours réducteur</td></tr>
+    </table>
+    <div class="conv"><b>Différence :</b> engrenage/chaîne → <b>dents Z</b>. Poulies/courroie → <b>diamètres D</b>. Loi identique.</div>
+  </div>
+</div>
+
+<div class="chap" id="c8">
+  <div class="chaph" onclick="tog('c8')"><span class="ci">📏</span><span class="ct">Grandeurs &amp; Unités SI</span><span class="ca">▼</span></div>
+  <div class="chapb">
+    <table class="ft">
+      <tr><th>Grandeur</th><th>Symbole</th><th>Unité SI</th><th>Conversion</th></tr>
+      <tr><td class="fq">Distance</td><td><span class="fs">e,d,h</span></td><td>m</td><td class="fu">1 km=1000 m · 1 mm=0,001 m</td></tr>
+      <tr><td class="fq">Temps</td><td><span class="fs">t</span></td><td>s</td><td class="fu">1 h=3600 s · 1 min=60 s</td></tr>
+      <tr><td class="fq">Vitesse</td><td><span class="fs">v</span></td><td>m/s</td><td class="fu">÷3,6 → m/s · ×3,6 → km/h</td></tr>
+      <tr><td class="fq">Accélération</td><td><span class="fs">a</span></td><td>m/s²</td><td class="fu">—</td></tr>
+      <tr><td class="fq">Vit. angulaire</td><td><span class="fs">ω</span></td><td>rad/s</td><td class="fu">ω = 2πN/60</td></tr>
+      <tr><td class="fq">Rotation</td><td><span class="fs">N</span></td><td>tr/min</td><td class="fu">N = 60ω/(2π)</td></tr>
+      <tr><td class="fq">Section</td><td><span class="fs">S</span></td><td>m²</td><td class="fu">1 dm²=0,01 m²</td></tr>
+      <tr><td class="fq">Débit</td><td><span class="fs">Q</span></td><td>m³/s</td><td class="fu">1 m³/h = 1/3600 m³/s</td></tr>
+      <tr><td class="fq">Gravité</td><td><span class="fs">g</span></td><td>9,81 m/s²</td><td class="fu">≈ 10 m/s² approx.</td></tr>
+    </table>
+  </div>
+</div>
+
+</div>
+</div>
+
+<script>
+var G=9.81,MOD='',EX=[],IDX=0,SCR=0,HON=false;
+function r2(x){return Math.round(x*100)/100;}
+function fmt(x){if(x===Math.round(x))return''+x;return r2(x).toFixed(2);}
+function ri(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
+function rf(a,b,d){d=d==null?1:d;var m=Math.pow(10,d);return Math.round((a+Math.random()*(b-a))*m)/m;}
+function near(s,c){var v=parseFloat((''+s).replace(',','.'));if(isNaN(v))return false;var d=Math.abs(v-c);return d<=0.02||(c!==0&&d/Math.abs(c)<=0.02);}
+function showPg(p,el){
+  document.querySelectorAll('.pg').forEach(function(e){e.classList.remove('on');});
+  document.querySelectorAll('.tab').forEach(function(e){e.classList.remove('on');});
+  document.getElementById('pg-'+p).classList.add('on');el.classList.add('on');
+}
+function tog(id){document.getElementById(id).classList.toggle('open');}
+function goMenu(){document.getElementById('menu').style.display='';document.getElementById('exz').style.display='none';}
+var HINTS={
+  mru:'<div class="ht">MRU — Rappel</div><div class="hl"><span class="hf">e = v × t</span> <span class="hf">v = e / t</span> <span class="hf">t = e / v</span></div><div class="hl">km/h ÷ 3,6 = m/s &nbsp;|&nbsp; m/s × 3,6 = km/h</div>',
+  debit:'<div class="ht">Débit — Rappel</div><div class="hl"><span class="hf">Q=S×v</span> <span class="hf">S=Q/v</span> <span class="hf">v=Q/S</span></div><div class="hl">Circulaire : <span class="hf">d=√(4S/π)</span> &nbsp; Carré : <span class="hf">c=√S</span></div><div class="hl">1 dm²=0,01 m² &nbsp;|&nbsp; Q(m³/h)÷3600=Q(m³/s)</div>',
+  mrua:'<div class="ht">MRUA — Rappel</div><div class="hl"><span class="hf">vf=v₀+a·t</span> <span class="hf">a=(vf−v₀)/t</span></div><div class="hl"><span class="hf">e=v₀·t+½·a·t²</span> si v₀=0: <span class="hf">e=½·a·t²</span></div><div class="hl"><span class="hf">a=2e/t²</span> (v₀=0) &nbsp; <span class="hf">vf²=v₀²+2·a·e</span></div>',
+  mrur:'<div class="ht">MRUR — Rappel</div><div class="hl"><span class="hf">vf=v₀−a·t</span> <span class="hf">e=v₀·t−½·a·t²</span></div><div class="hl">Arrêt: <span class="hf">a=v₀²/(2e)</span> <span class="hf">t=v₀/a</span></div><div class="hl">km/h ÷ 3,6 = m/s</div>',
+  chute:'<div class="ht">Chute — g = 9,81 m/s²</div><div class="hl">Libre: <span class="hf">v=g·t</span> <span class="hf">h=½·g·t²</span> <span class="hf">t=√(2h/g)</span></div><div class="hl">Haut: <span class="hf">v=v₀−g·t</span> <span class="hf">h_max=v₀²/(2g)</span></div><div class="hl">Bas: <span class="hf">v=v₀+g·t</span> <span class="hf">h=v₀·t+½·g·t²</span></div>',
+  mcu:'<div class="ht">MCU — Rappel</div><div class="hl"><span class="hf">v=π·D·N/60</span> <span class="hf">N=60·v/(π·D)</span> <span class="hf">D=60·v/(π·N)</span></div><div class="hl"><span class="hf">ω=2·π·N/60</span> &nbsp; D(mm)÷1000=D(m)</div>',
+  poulies:'<div class="ht">Poulies — Rappel</div><div class="hl"><span class="hf">N₁·D₁=N₂·D₂</span></div><div class="hl"><span class="hf">N₂=N₁·D₁/D₂</span> <span class="hf">i=D₂/D₁</span></div><div class="hl">i&gt;1 réducteur &nbsp;|&nbsp; i&lt;1 multiplicateur</div>',
+  engr:'<div class="ht">Engrenages — Rappel</div><div class="hl">Roues/Chaîne: <span class="hf">N₁·Z₁=N₂·Z₂</span></div><div class="hl"><span class="hf">N₂=N₁·Z₁/Z₂</span> <span class="hf">i=Z₂/Z₁</span></div><div class="hl">Vis sans fin: <span class="hf">N_roue=e·N_vis/Z</span></div>'
+};
+function toggleHint(){HON=!HON;var h=document.getElementById('hint');if(HON){h.innerHTML=HINTS[MOD]||'';h.style.display='block';}else h.style.display='none';}
+function start(mod){
+  MOD=mod;EX=gen(mod);IDX=0;SCR=0;HON=false;
+  document.getElementById('menu').style.display='none';
+  document.getElementById('exz').style.display='block';
+  document.getElementById('res').style.display='none';
+  document.getElementById('exc').style.display='block';
+  document.getElementById('hint').style.display='none';
+  var T={mru:'MRU',debit:'Débit volumétrique',mrua:'MRUA',mrur:'MRUR',chute:'Chute des corps',mcu:'MCU',poulies:'Poulies & courroies',engr:'Engrenages'};
+  document.getElementById('extitle').textContent=T[mod]||mod;showEx();
+}
+function showEx(){
+  var ex=EX[IDX],n=IDX+1;
+  document.getElementById('pgtxt').textContent='Exercice '+n+' / 10';
+  document.getElementById('progf').style.width=(n*10)+'%';
+  HON=false;document.getElementById('hint').style.display='none';
+  var h='<div class="excard"><div class="exn">EXERCICE '+n+' / 10</div><div class="ext">'+ex.q+'</div>';
+  if(ex.asks){h+='<div class="exask"><p>On demande :</p><ul>';ex.asks.forEach(function(a){h+='<li>'+a+'</li>';});h+='</ul></div>';}
+  h+='<div class="arow">';
+  ex.fields.forEach(function(f,i){h+='<div class="agrp"><label>'+f.l+'</label><input type="text" id="f'+i+'" placeholder="12.50" autocomplete="off"></div>';});
+  h+='<button class="bchk" id="bchk" onclick="chk()">Vérifier ✓</button></div>'
+   +'<div class="rnote">⚠ Arrondi 2 chiffres : 0.035→0.04 · 0.034→0.03</div>'
+   +'<div class="fb" id="fb"></div>'
+   +'<button class="bnxt" id="bnxt" onclick="nxt()">Exercice suivant →</button></div>';
+  document.getElementById('exc').innerHTML=h;
+  setTimeout(function(){var f=document.getElementById('f0');if(f)f.focus();},60);
+  document.querySelectorAll('[id^="f"]').forEach(function(inp){inp.addEventListener('keydown',function(e){if(e.key==='Enter')chk();});});
+}
+function chk(){
+  var ex=EX[IDX];document.getElementById('bchk').disabled=true;
+  var all=true,wrongs=[];
+  ex.fields.forEach(function(f,i){
+    var inp=document.getElementById('f'+i),ok=near(inp.value,f.a);
+    inp.classList.remove('ok','ko');inp.classList.add(ok?'ok':'ko');
+    if(!ok){all=false;wrongs.push({l:f.l,g:inp.value,e:fmt(f.a)});}
+  });
+  if(all)SCR++;
+  var fb=document.getElementById('fb');fb.style.display='block';fb.className='fb '+(all?'ok':'ko');
+  if(all){
+    fb.innerHTML='<div class="fbt">✅ Correct !</div><div class="fbb">'+ex.bravo+'</div>';
+  } else {
+    var wh=wrongs.map(function(w){return'<b>'+w.l+'</b> : tu as mis <b>'+(w.g||'—')+'</b>, attendu : <b>'+w.e+'</b>';}).join('<br>');
+    fb.innerHTML='<div class="fbt">❌ Pas tout à fait…</div><div class="fbb">'+wh+'<hr style="border:none;border-top:2px solid #fca5a5;margin:8px 0"><b>Plan de résolution :</b><br>'+ex.plan+'</div>';
+  }
+  document.getElementById('bnxt').style.display='inline-block';
+}
+function nxt(){IDX++;if(IDX>=EX.length)showRes();else showEx();}
+function showRes(){
+  document.getElementById('exc').style.display='none';
+  var r=document.getElementById('res');r.style.display='block';
+  var pct=Math.round(SCR/EX.length*100);
+  var col=pct>=80?'#059669':pct>=50?'#d97706':'#e11d48';
+  var star=pct>=80?'🌟🌟🌟':pct>=50?'⭐⭐':'⭐';
+  var msg=pct>=80?'Excellent ! Tu maîtrises bien ce chapitre ! 🎉':pct>=50?'Bon effort ! Revois les exercices manqués et recommence. 💪':'Continue ! Consulte le rappel des formules et réessaie. 📖';
+  r.innerHTML='<div class="resscore" style="color:'+col+'">'+SCR+'/10</div>'
+    +'<div class="reslbl">Score final &nbsp;'+star+'</div>'
+    +'<div class="resmsg">'+msg+'</div>'
+    +'<button class="bret" onclick="start(MOD)">🔄 Recommencer</button>&nbsp;&nbsp;'
+    +'<button class="bbk" onclick="goMenu()">← Menu</button>';
+}
+function gen(mod){
+  var fns={mru:gMRU,debit:gDEB,mrua:gMRUA,mrur:gMRUR,chute:gCHUT,mcu:gMCU,poulies:gPOUL,engr:gENGR};
+  var f=fns[mod]||gMRU,o=[];while(o.length<10)o.push(f());return o;
+}
+function s(x){return'<span class="fml">'+x+'</span>';}
+function st(b,t){return'<div class="step"><b>'+b+'</b> '+t+'</div>';}
+function gMRU(){
+  var t=ri(1,6);
+  if(t===1){var v=rf(20,130,1),h=ri(1,3),m=ri(0,59),tt=r2(h+m/60),e=r2(v*tt);
+    return{q:'Un véhicule roule à <strong>'+v+' km/h</strong> pendant <strong>'+h+'h'+(m>0?' '+m+'min':'')+'</strong>.',asks:["Calcule l'espace parcouru en km."],fields:[{l:'e (km)',a:e}],
+      plan:st('Formule :',s('e = v × t'))+st('e =',v+' × '+tt+' = <b>'+e+' km</b>'),bravo:'e = '+v+' × '+tt+' = <b>'+e+' km</b>'};}
+  if(t===2){var v=rf(60,180,1),e=rf(10,200,1),th=r2(e/v),tm=r2(th*60);
+    return{q:'Un véhicule roule à <strong>'+v+' km/h</strong> et parcourt <strong>'+e+' km</strong>.',asks:["Temps de parcours en minutes."],fields:[{l:'t (min)',a:tm}],
+      plan:st('Formule :',s('t = e/v'))+st('t =',e+'/'+v+' = '+fmt(th)+' h × 60 = <b>'+fmt(tm)+' min</b>'),bravo:'t = <b>'+fmt(tm)+' min</b>'};}
+  if(t===3){var e=ri(100,5000),ts=ri(30,600),vm=r2(e/ts),vk=r2(vm*3.6);
+    return{q:'Un mobile parcourt <strong>'+e+' m</strong> en <strong>'+ts+' s</strong>.',asks:["Vitesse en m/s et en km/h."],fields:[{l:'v (m/s)',a:vm},{l:'v (km/h)',a:vk}],
+      plan:st('v = e/t =',e+'/'+ts+' = <b>'+fmt(vm)+' m/s</b>')+st('Conv. :',fmt(vm)+' × 3,6 = <b>'+fmt(vk)+' km/h</b>'),bravo:'v = <b>'+fmt(vm)+' m/s</b> = <b>'+fmt(vk)+' km/h</b>'};}
+  if(t===4){var ts=ri(3,20),d=340*ts;
+    return{q:'Tonnerre perçu <strong>'+ts+' s</strong> après l\'éclair. Vitesse son = 340 m/s.',asks:["Distance de la foudre (m)."],fields:[{l:'d (m)',a:d}],
+      plan:st('e = v × t =','340 × '+ts+' = <b>'+d+' m</b>'),bravo:'d = <b>'+d+' m</b>'};}
+  if(t===5){var et=ri(5,20),he=ri(2,4),ts=ri(20,120),ht=et*he,vm=r2(ht/ts),vk=r2(vm*3.6);
+    return{q:'Ascenseur : <strong>'+et+' étages</strong> de <strong>'+he+' m</strong> en <strong>'+ts+' s</strong>.',asks:["Vitesse en m/s et en km/h."],fields:[{l:'v (m/s)',a:vm},{l:'v (km/h)',a:vk}],
+      plan:st('Distance :',et+' × '+he+' = '+ht+' m')+st('v = e/t =',ht+'/'+ts+' = <b>'+fmt(vm)+' m/s</b>')+st('Conv. :',fmt(vm)+' × 3,6 = <b>'+fmt(vk)+' km/h</b>'),bravo:'v = <b>'+fmt(vm)+' m/s</b> = <b>'+fmt(vk)+' km/h</b>'};}
+  var v=rf(3,8,1),tm=ri(20,60),dj=rf(0.5,3,1),ep=r2(v*tm/60),et=r2(ep+dj);
+  return{q:'Piéton : <strong>'+tm+' min</strong> à <strong>'+v+' km/h</strong>, déjà <strong>'+dj+' km</strong> effectués.',asks:["Distance totale (km)."],fields:[{l:'e_total (km)',a:et}],
+    plan:st('Pendant chrono :',v+' × '+tm+'/60 = <b>'+fmt(ep)+' km</b>')+st('Total :',fmt(ep)+' + '+dj+' = <b>'+fmt(et)+' km</b>'),bravo:'e_total = <b>'+fmt(et)+' km</b>'};
+}
+function gDEB(){
+  var t=ri(1,5);
+  if(t===1){var sd=rf(10,50,0),vk=rf(2,8,1),sm=sd/100,vm=r2(vk/3.6),qs=r2(sm*vm),qh=r2(qs*3600);
+    return{q:'Transporteur : section <strong>'+sd+' dm²</strong>, vitesse tapis <strong>'+vk+' km/h</strong>.',asks:["Débit (m³/h)."],fields:[{l:'Q (m³/h)',a:qh}],
+      plan:st('Conv. :','S='+fmt(sm)+' m² · v='+fmt(vm)+' m/s')+st('Q = S×v =',fmt(sm)+'×'+fmt(vm)+'='+fmt(qs)+' m³/s × 3600 = <b>'+fmt(qh)+' m³/h</b>'),bravo:'Q = <b>'+fmt(qh)+' m³/h</b>'};}
+  if(t===2){var qh=ri(50,500),vm=rf(1,5,1),qs=qh/3600,sm=Math.round(qs/vm*1e5)/1e5,dm=r2(2*Math.sqrt(sm/Math.PI)),dmm=r2(dm*1000);
+    return{q:'Tuyauterie ronde : débit <strong>'+qh+' m³/h</strong>, v = <strong>'+vm+' m/s</strong>.',asks:["Diamètre (mm)."],fields:[{l:'d (mm)',a:r2(dmm)}],
+      plan:st('Q(m³/s) =',qh+'/3600 = '+fmt(qs))+st('S = Q/v =',fmt(qs)+'/'+vm+' = '+fmt(sm)+' m²')+st('d = √(4S/π) =','<b>'+fmt(dmm)+' mm</b>'),bravo:'d = <b>'+fmt(dmm)+' mm</b>'};}
+  if(t===3){var lc=ri(20,60),hc=ri(10,30),vm=rf(2,8,1),sm=r2((lc/100)*(hc/100)),qs=r2(sm*vm),qh=r2(qs*3600);
+    return{q:'Tuyau rectangulaire <strong>'+lc+' cm × '+hc+' cm</strong>, air à <strong>'+vm+' m/s</strong>.',asks:["Débit (m³/h)."],fields:[{l:'Q (m³/h)',a:qh}],
+      plan:st('S =',lc/100+' × '+hc/100+' = '+fmt(sm)+' m²')+st('Q =',fmt(sm)+'×'+vm+' = '+fmt(qs)+' m³/s × 3600 = <b>'+fmt(qh)+' m³/h</b>'),bravo:'Q = <b>'+fmt(qh)+' m³/h</b>'};}
+  if(t===4){var dm=ri(50,200),qh=ri(10,200),dmo=dm/1000,sm=r2(Math.PI*dmo*dmo/4),vm=r2((qh/3600)/sm);
+    return{q:'Tuyau Ø <strong>'+dm+' mm</strong>, débit <strong>'+qh+' m³/h</strong>.',asks:["Vitesse de circulation (m/s)."],fields:[{l:'v (m/s)',a:vm}],
+      plan:st('S = π·d²/4 =','<b>'+fmt(sm)+' m²</b>')+st('v = Q/S =',fmt(r2(qh/3600))+'/'+fmt(sm)+' = <b>'+fmt(vm)+' m/s</b>'),bravo:'v = <b>'+fmt(vm)+' m/s</b>'};}
+  var vm=rf(5,15,1),qs=rf(0.5,5,2),sm=r2(qs/vm),cm=r2(Math.sqrt(sm)),cc=r2(cm*100);
+  return{q:'Canalisation carrée, air à <strong>'+vm+' m/s</strong>, débit <strong>'+qs+' m³/s</strong>.',asks:["Côté (cm)."],fields:[{l:'côté (cm)',a:cc}],
+    plan:st('S = Q/v =',qs+'/'+vm+' = '+fmt(sm)+' m²')+st('c = √S =','√'+fmt(sm)+' = '+fmt(cm)+' m = <b>'+fmt(cc)+' cm</b>'),bravo:'c = <b>'+fmt(cc)+' cm</b>'};
+}
+function gMRUA(){
+  var t=ri(1,5);
+  if(t===1){var vk=ri(20,120),ts=ri(5,30),vf=r2(vk/3.6),a=r2(vf/ts);
+    return{q:'Mobile du <strong>repos</strong> → <strong>'+vk+' km/h</strong> en <strong>'+ts+' s</strong>.',asks:["Accélération (m/s²)."],fields:[{l:'a (m/s²)',a:a}],
+      plan:st('vf =',vk+'/3,6 = '+fmt(vf)+' m/s')+st('a = (vf−v₀)/t =','('+fmt(vf)+'−0)/'+ts+' = <b>'+fmt(a)+' m/s²</b>'),bravo:'a = <b>'+fmt(a)+' m/s²</b>'};}
+  if(t===2){var a=rf(0.5,3,1),ts=ri(5,20),vf=r2(a*ts),e=r2(0.5*a*ts*ts);
+    return{q:'Mobile du repos, a = <strong>'+a+' m/s²</strong>.',asks:['Vitesse après '+ts+' s (m/s).','Espace après '+ts+' s (m).'],fields:[{l:'v (m/s)',a:vf},{l:'e (m)',a:e}],
+      plan:st('v = a·t =',a+'×'+ts+' = <b>'+fmt(vf)+' m/s</b>')+st('e = ½·a·t² =','0,5×'+a+'×'+ts+'² = <b>'+fmt(e)+' m</b>'),bravo:'v=<b>'+fmt(vf)+' m/s</b> · e=<b>'+fmt(e)+' m</b>'};}
+  if(t===3){var v0=rf(1,5,1),vf=rf(8,20,1),a=rf(0.1,1,2),ts=r2((vf-v0)/a),e=r2(v0*ts+0.5*a*ts*ts);
+    return{q:'Véhicule de <strong>'+v0+' m/s</strong> à <strong>'+vf+' m/s</strong>, a = <strong>'+a+' m/s²</strong>.',asks:['Durée (s).','Espace (m).'],fields:[{l:'t (s)',a:ts},{l:'e (m)',a:e}],
+      plan:st('t = (vf−v0)/a =','('+vf+'−'+v0+')/'+a+' = <b>'+fmt(ts)+' s</b>')+st('e = v0·t+½·a·t² =','<b>'+fmt(e)+' m</b>'),bravo:'t=<b>'+fmt(ts)+' s</b> · e=<b>'+fmt(e)+' m</b>'};}
+  if(t===4){var e=ri(80,200),ts=ri(5,15),a=r2(2*e/(ts*ts));
+    return{q:'Mobile du <strong>repos</strong>, parcourt <strong>'+e+' m</strong> en <strong>'+ts+' s</strong>.',asks:["Accélération (m/s²)."],fields:[{l:'a (m/s²)',a:a}],
+      plan:st('a = 2e/t² =','2×'+e+'/'+ts+'² = '+2*e+'/'+ts*ts+' = <b>'+fmt(a)+' m/s²</b>'),bravo:'a = <b>'+fmt(a)+' m/s²</b>'};}
+  var em=rf(1,5,1),ts=ri(2,8),a=r2(2*em/(ts*ts)),vf=r2(a*ts);
+  return{q:'Bille du repos, plan incliné : <strong>'+em+' m</strong> en <strong>'+ts+' s</strong>.',asks:['Accélération (m/s²).','Vitesse finale (m/s).'],fields:[{l:'a (m/s²)',a:a},{l:'vf (m/s)',a:vf}],
+    plan:st('a = 2e/t² =','2×'+em+'/'+ts+'² = <b>'+fmt(a)+' m/s²</b>')+st('vf = a·t =',fmt(a)+'×'+ts+' = <b>'+fmt(vf)+' m/s</b>'),bravo:'a=<b>'+fmt(a)+' m/s²</b> · vf=<b>'+fmt(vf)+' m/s</b>'};
+}
+function gMRUR(){
+  var t=ri(1,4);
+  if(t===1){var v0k=ri(40,130),ts=ri(5,20),em=ri(30,300),v0=r2(v0k/3.6),a=r2(2*(v0*ts-em)/(ts*ts)),vf=Math.max(0,r2(v0-a*ts)),vfk=r2(vf*3.6);
+    return{q:'Voiture <strong>'+v0k+' km/h</strong>, freine <strong>'+ts+' s</strong> sur <strong>'+em+' m</strong>.',asks:['Décélération (m/s²).','Vitesse finale (km/h).'],fields:[{l:'a (m/s²)',a:a},{l:'vf (km/h)',a:vfk}],
+      plan:st('v0 =',v0k+'/3,6 = '+fmt(v0)+' m/s')+st('a = 2(v0·t−e)/t² =','<b>'+fmt(a)+' m/s²</b>')+st('vf = v0−a·t =','<b>'+fmt(vfk)+' km/h</b>'),bravo:'a=<b>'+fmt(a)+' m/s²</b> · vf=<b>'+fmt(vfk)+' km/h</b>'};}
+  if(t===2){var v0k=ri(60,150),em=ri(80,300),v0=r2(v0k/3.6),a=r2(v0*v0/(2*em)),ts=r2(v0/a);
+    return{q:'Voiture <strong>'+v0k+' km/h</strong> freine jusqu\'à l\'arrêt sur <strong>'+em+' m</strong>.',asks:['Décélération (m/s²).','Durée freinage (s).'],fields:[{l:'a (m/s²)',a:a},{l:'t (s)',a:ts}],
+      plan:st('v0 =',v0k+'/3,6 = '+fmt(v0)+' m/s')+st('a = v0²/(2e) =','<b>'+fmt(a)+' m/s²</b>')+st('t = v0/a =','<b>'+fmt(ts)+' s</b>'),bravo:'a=<b>'+fmt(a)+' m/s²</b> · t=<b>'+fmt(ts)+' s</b>'};}
+  if(t===3){var v0k=ri(40,120),a=rf(0.3,2,1),v0=r2(v0k/3.6),ts=r2(v0/a);
+    return{q:'Train <strong>'+v0k+' km/h</strong>, décélération <strong>'+a+' m/s²</strong>.',asks:["Temps pour s'arrêter (s)."],fields:[{l:'t (s)',a:ts}],
+      plan:st('v0 =',v0k+'/3,6 = '+fmt(v0)+' m/s')+st('t = v0/a =',fmt(v0)+'/'+a+' = <b>'+fmt(ts)+' s</b>'),bravo:'t = <b>'+fmt(ts)+' s</b>'};}
+  var v0k=ri(50,120),a=rf(0.5,2,1),v0=r2(v0k/3.6),ts=r2(v0/a),em=r2(v0*ts-0.5*a*ts*ts);
+  return{q:'Véhicule <strong>'+v0k+' km/h</strong>, a = <strong>'+a+' m/s²</strong> jusqu\'à l\'arrêt.',asks:['Durée freinage (s).','Espace freinage (m).'],fields:[{l:'t (s)',a:ts},{l:'e (m)',a:em}],
+    plan:st('t = v0/a =',fmt(v0)+'/'+a+' = <b>'+fmt(ts)+' s</b>')+st('e = v0·t−½·a·t² =','<b>'+fmt(em)+' m</b>'),bravo:'t=<b>'+fmt(ts)+' s</b> · e=<b>'+fmt(em)+' m</b>'};
+}
+function gCHUT(){
+  var t=ri(1,5);
+  if(t===1){var ts=ri(2,15),vf=r2(G*ts),h=r2(0.5*G*ts*ts);
+    return{q:'Corps en <strong>chute libre</strong> pendant <strong>'+ts+' s</strong>.',asks:["Vitesse à l'impact (m/s).","Hauteur (m)."],fields:[{l:'v (m/s)',a:vf},{l:'h (m)',a:h}],
+      plan:st('v = g·t =','9,81×'+ts+' = <b>'+fmt(vf)+' m/s</b>')+st('h = ½·g·t² =','0,5×9,81×'+ts+'² = <b>'+fmt(h)+' m</b>'),bravo:'v=<b>'+fmt(vf)+' m/s</b> · h=<b>'+fmt(h)+' m</b>'};}
+  if(t===2){var h=ri(20,500),ts=r2(Math.sqrt(2*h/G)),vf=r2(G*ts);
+    return{q:'Corps en chute libre depuis <strong>'+h+' m</strong>.',asks:["Durée (s).","Vitesse impact (m/s)."],fields:[{l:'t (s)',a:ts},{l:'v (m/s)',a:vf}],
+      plan:st('t = √(2h/g) =','√(2×'+h+'/9,81) = <b>'+fmt(ts)+' s</b>')+st('v = g·t =','9,81×'+fmt(ts)+' = <b>'+fmt(vf)+' m/s</b>'),bravo:'t=<b>'+fmt(ts)+' s</b> · v=<b>'+fmt(vf)+' m/s</b>'};}
+  if(t===3){var v0=ri(20,80),hm=r2(v0*v0/(2*G)),tm=r2(v0/G);
+    return{q:'Balle lancée vers le <strong>haut</strong> à <strong>'+v0+' m/s</strong>.',asks:["Hauteur max (m).","Durée montée (s)."],fields:[{l:'h_max (m)',a:hm},{l:'t montée (s)',a:tm}],
+      plan:st('h_max = v₀²/(2g) =',v0+'²/19,62 = <b>'+fmt(hm)+' m</b>')+st('t = v₀/g =',v0+'/9,81 = <b>'+fmt(tm)+' s</b>'),bravo:'h_max=<b>'+fmt(hm)+' m</b> · t=<b>'+fmt(tm)+' s</b>'};}
+  if(t===4){var v0=ri(30,100),ti=Math.max(2,ri(2,Math.floor(v0/G))),h=r2(v0*ti-0.5*G*ti*ti),vi=r2(v0-G*ti);
+    return{q:'Corps lancé en haut à <strong>'+v0+' m/s</strong>. Après <strong>'+ti+' s</strong>.',asks:['Hauteur (m).','Vitesse (m/s).'],fields:[{l:'h (m)',a:h},{l:'v (m/s)',a:vi}],
+      plan:st('h = v₀·t−½·g·t² =','<b>'+fmt(h)+' m</b>')+st('v = v₀−g·t =',v0+'−9,81×'+ti+' = <b>'+fmt(vi)+' m/s</b>'+(vi<0?' (redescend)':'')),bravo:'h=<b>'+fmt(h)+' m</b> · v=<b>'+fmt(vi)+' m/s</b>'};}
+  var v0=ri(5,20),ts=ri(2,6),vf=r2(v0+G*ts),h=r2(v0*ts+0.5*G*ts*ts);
+  return{q:'Corps lancé vers le <strong>bas</strong> à <strong>'+v0+' m/s</strong> pendant <strong>'+ts+' s</strong>.',asks:["Vitesse finale (m/s).","Distance (m)."],fields:[{l:'vf (m/s)',a:vf},{l:'h (m)',a:h}],
+    plan:st('vf = v₀+g·t =',v0+'+9,81×'+ts+' = <b>'+fmt(vf)+' m/s</b>')+st('h = v₀·t+½·g·t² =','<b>'+fmt(h)+' m</b>'),bravo:'vf=<b>'+fmt(vf)+' m/s</b> · h=<b>'+fmt(h)+' m</b>'};
+}
+function gMCU(){
+  var t=ri(1,5);
+  if(t===1){var dc=ri(10,80),n=ri(100,3000),dm=dc/100,v=r2(Math.PI*dm*n/60);
+    return{q:'Meule Ø <strong>'+dc+' cm</strong>, N = <strong>'+n+' tr/min</strong>.',asks:["Vitesse circonférentielle (m/s)."],fields:[{l:'v (m/s)',a:v}],
+      plan:st('D =',dc+'/100 = '+dm+' m')+st('v = π·D·N/60 =','π×'+dm+'×'+n+'/60 = <b>'+fmt(v)+' m/s</b>'),bravo:'v = <b>'+fmt(v)+' m/s</b>'};}
+  if(t===2){var dm=ri(100,500),vm=rf(5,30,1),dmo=dm/1000,n=r2(60*vm/(Math.PI*dmo));
+    return{q:'v = <strong>'+vm+' m/s</strong>, Ø <strong>'+dm+' mm</strong>.',asks:["Vitesse de rotation N (tr/min)."],fields:[{l:'N (tr/min)',a:n}],
+      plan:st('D =',dm+'/1000 = '+dmo+' m')+st('N = 60·v/(π·D) =','60×'+vm+'/(π×'+dmo+') = <b>'+fmt(n)+' tr/min</b>'),bravo:'N = <b>'+fmt(n)+' tr/min</b>'};}
+  if(t===3){var n=ri(200,2000),vm=rf(5,40,1),dm=r2(60*vm/(Math.PI*n)),dmm=r2(dm*1000);
+    return{q:'N = <strong>'+n+' tr/min</strong>, v = <strong>'+vm+' m/s</strong>.',asks:["Diamètre (mm)."],fields:[{l:'D (mm)',a:dmm}],
+      plan:st('D = 60·v/(π·N) =','60×'+vm+'/(π×'+n+') = '+fmt(dm)+' m = <b>'+fmt(dmm)+' mm</b>'),bravo:'D = <b>'+fmt(dmm)+' mm</b>'};}
+  if(t===4){var n=ri(100,3000),w=r2(2*Math.PI*n/60);
+    return{q:'Arbre à <strong>'+n+' tr/min</strong>.',asks:["Vitesse angulaire ω (rad/s)."],fields:[{l:'ω (rad/s)',a:w}],
+      plan:st('ω = 2·π·N/60 =','2×π×'+n+'/60 = <b>'+fmt(w)+' rad/s</b>'),bravo:'ω = <b>'+fmt(w)+' rad/s</b>'};}
+  var dm=ri(8,80),n=ri(200,2000),dmo=dm/1000,vm=r2(Math.PI*dmo*n/60),vmm=r2(vm*60);
+  return{q:'Tour : pièce Ø <strong>'+dm+' mm</strong> à <strong>'+n+' tr/min</strong>.',asks:["v coupe (m/s).","v coupe (m/min)."],fields:[{l:'vc (m/s)',a:vm},{l:'vc (m/min)',a:vmm}],
+    plan:st('vc = π·D·N/60 =','π×'+dmo+'×'+n+'/60 = <b>'+fmt(vm)+' m/s</b>')+st('En m/min :',fmt(vm)+'×60 = <b>'+fmt(vmm)+' m/min</b>'),bravo:'vc=<b>'+fmt(vm)+' m/s</b> = <b>'+fmt(vmm)+' m/min</b>'};
+}
+function gPOUL(){
+  var t=ri(1,4);
+  if(t===1){var d1=ri(100,600),n1=ri(100,1500),d2=ri(100,800),n2=r2(n1*d1/d2),i=r2(d2/d1);
+    return{q:'D1=<strong>'+d1+' mm</strong>, N1=<strong>'+n1+' tr/min</strong>. D2=<strong>'+d2+' mm</strong>.',asks:['N2 (tr/min).','Rapport i.'],fields:[{l:'N2 (tr/min)',a:n2},{l:'i',a:i}],
+      plan:st('N1·D1=N2·D2 →','N2='+n1+'×'+d1+'/'+d2+' = <b>'+fmt(n2)+' tr/min</b>')+st('i = D2/D1 =',d2+'/'+d1+' = <b>'+fmt(i)+'</b>'),bravo:'N2=<b>'+fmt(n2)+'</b> · i=<b>'+fmt(i)+'</b>'};}
+  if(t===2){var d1=ri(100,400),n1=ri(200,1500),n2=ri(100,1000),d2=r2(n1*d1/n2);
+    return{q:'D1=<strong>'+d1+' mm</strong>, N1=<strong>'+n1+' tr/min</strong>. On veut N2=<strong>'+n2+' tr/min</strong>.',asks:["D2 (mm)."],fields:[{l:'D2 (mm)',a:d2}],
+      plan:st('D2 = N1·D1/N2 =',n1+'×'+d1+'/'+n2+' = <b>'+fmt(d2)+' mm</b>'),bravo:'D2 = <b>'+fmt(d2)+' mm</b>'};}
+  if(t===3){var n1=ri(100,1000),d1=ri(200,800),d2=ri(100,600),n2=r2(n1*d1/d2),w1=r2(2*Math.PI*n1/60),w2=r2(2*Math.PI*n2/60);
+    return{q:'N1='+n1+' tr/min, D1='+d1+' mm → D2='+d2+' mm.',asks:['N2 (tr/min).','ω1 (rad/s).','ω2 (rad/s).'],fields:[{l:'N2 (tr/min)',a:n2},{l:'ω1 (rad/s)',a:w1},{l:'ω2 (rad/s)',a:w2}],
+      plan:st('N2 =',n1+'×'+d1+'/'+d2+' = <b>'+fmt(n2)+'</b>')+st('ω1 = 2πN1/60 =','<b>'+fmt(w1)+' rad/s</b>')+st('ω2 = 2πN2/60 =','<b>'+fmt(w2)+' rad/s</b>'),bravo:'N2=<b>'+fmt(n2)+'</b> · ω1=<b>'+fmt(w1)+'</b> · ω2=<b>'+fmt(w2)+'</b>'};}
+  var n1=ri(500,1500),d1=ri(100,300),d2=ri(100,600),n2=r2(n1*d1/d2),i=r2(d2/d1),ty=i>1?'réducteur':'multiplicateur';
+  return{q:'D1='+d1+' mm, N1='+n1+' tr/min → D2='+d2+' mm.',asks:['N2 (tr/min).','i.','1=réducteur ou 2=multiplicateur ?'],fields:[{l:'N2 (tr/min)',a:n2},{l:'i',a:i},{l:'1 ou 2',a:i>1?1:2}],
+    plan:st('N2 =',n1+'×'+d1+'/'+d2+' = <b>'+fmt(n2)+'</b>')+st('i =',d2+'/'+d1+' = <b>'+fmt(i)+'</b> → <b>'+ty+'</b>'),bravo:'N2=<b>'+fmt(n2)+'</b> · i=<b>'+fmt(i)+'</b> → <b>'+ty+'</b>'};
+}
+function gENGR(){
+  var t=ri(1,5);
+  if(t===1){var z1=ri(12,60),n1=ri(200,1500),n2=ri(100,600),z2=Math.round(n1*z1/n2);
+    return{q:'Z1=<strong>'+z1+' dents</strong>, N1=<strong>'+n1+' tr/min</strong> → N2=<strong>'+n2+' tr/min</strong>.',asks:["Z2 (dents)."],fields:[{l:'Z2 (dents)',a:z2}],
+      plan:st('Z2 = N1·Z1/N2 =',n1+'×'+z1+'/'+n2+' = <b>'+z2+' dents</b>'),bravo:'Z2 = <b>'+z2+' dents</b>'};}
+  if(t===2){var z1=ri(15,80),z2=ri(15,120),n1=ri(200,1500),n2=r2(n1*z1/z2),i=r2(z2/z1);
+    return{q:'Z1=<strong>'+z1+'</strong> (N1=<strong>'+n1+' tr/min</strong>) → Z2=<strong>'+z2+' dents</strong>.',asks:['N2 (tr/min).','Rapport i.'],fields:[{l:'N2 (tr/min)',a:n2},{l:'i',a:i}],
+      plan:st('N2 = N1·Z1/Z2 =',n1+'×'+z1+'/'+z2+' = <b>'+fmt(n2)+'</b>')+st('i = Z2/Z1 =',z2+'/'+z1+' = <b>'+fmt(i)+'</b>'),bravo:'N2=<b>'+fmt(n2)+'</b> · i=<b>'+fmt(i)+'</b>'};}
+  if(t===3){var z1=ri(15,60),n1=ri(200,1000),z2=ri(20,100),n2=r2(n1*z1/z2);
+    return{q:'Chaîne : Z1=<strong>'+z1+' dents</strong> ('+n1+' tr/min) → Z2=<strong>'+z2+' dents</strong>.',asks:["N2 (tr/min)."],fields:[{l:'N2 (tr/min)',a:n2}],
+      plan:st('N2 = N1·Z1/Z2 =',n1+'×'+z1+'/'+z2+' = <b>'+fmt(n2)+' tr/min</b>'),bravo:'N2 = <b>'+fmt(n2)+' tr/min</b>'};}
+  if(t===4){var e=ri(1,4),nv=ri(500,3000),zr=ri(30,120),nr=r2(e*nv/zr);
+    return{q:'Vis sans fin : <strong>'+e+' entrée(s)</strong>, N_vis=<strong>'+nv+' tr/min</strong>, Z=<strong>'+zr+' dents</strong>.',asks:["N_roue (tr/min)."],fields:[{l:'N_roue (tr/min)',a:nr}],
+      plan:st('N_roue = e·N_vis/Z =','('+e+'×'+nv+')/'+zr+' = <b>'+fmt(nr)+' tr/min</b>'),bravo:'N_roue = <b>'+fmt(nr)+' tr/min</b>'};}
+  var za=ri(30,60),zb=ri(12,25),np=ri(60,100),na=r2(np*za/zb),vm=r2(Math.PI*0.7*na/60),vk=r2(vm*3.6);
+  return{q:'Cycliste : pédalage <strong>'+np+' tr/min</strong>, Z_avant=<strong>'+za+'</strong>, Z_arrière=<strong>'+zb+'</strong>, roues Ø 700 mm.',asks:["N roue arrière (tr/min).","Vitesse (km/h)."],fields:[{l:'N arr. (tr/min)',a:na},{l:'v (km/h)',a:vk}],
+    plan:st('N_ar = '+np+'×'+za+'/'+zb+' =','<b>'+fmt(na)+' tr/min</b>')+st('v = π×0,7×'+fmt(na)+'/60 =',fmt(vm)+' m/s = <b>'+fmt(vk)+' km/h</b>'),bravo:'N=<b>'+fmt(na)+'</b> · v=<b>'+fmt(vk)+' km/h</b>'};
+}
+</script>
